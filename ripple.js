@@ -32,10 +32,10 @@ export class Ripple {
         ctx.fill();
     }
 
-    getMat(x,y){
+    getMax(x,y){
         const c1 = distance(0,0,x,y);
         const c2 = distance(this.stageWidth,0,x,y);
-        const c3 = distanve(0,this.stageHeight, x,y);
+        const c3 = distance(0,this.stageHeight, x,y);
         const c4 = distance(this.stageWidth, this.stageHeight, x, y);
         return Math.max(c1,c2,c3,c4);
     }
