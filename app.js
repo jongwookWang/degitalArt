@@ -151,7 +151,7 @@ class App{
                 this.ripple.x,this.ripple.y,
                 this.ripple.radius
             )){
-                dot.animate(this.ctx);
+                this.ripple.animate(this.ctx);
             }
         }
     }
