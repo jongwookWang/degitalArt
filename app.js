@@ -100,7 +100,7 @@ class App{
             this.imgPos.width, this.imgPos.height,
         );
         
-        this.imgDate = this.tmpCtx.getImageDate(0,0,this.stageWidth,this.stageHeight);
+        this.imgDate = this.tmpCtx.getImageData(0,0,this.stageWidth,this.stageHeight);
 
         this.drawDots() 
     }
