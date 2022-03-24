@@ -142,7 +142,7 @@ class App{
     animate(){
         window.requestAnimationFrame(this.animate.bind(this));
 
-        this.ripple.animate(this.ctx);
+        this.ripple.animate();
 
         for ( let i =0; i<this.dots.length; i++){
             const dot = this.dots[i];
@@ -151,7 +151,7 @@ class App{
                 this.ripple.x,this.ripple.y,
                 this.ripple.radius
             )){
-                this.ripple.animate(this.ctx);
+                dot.animate(this.ctx);
             }
         }
     }
