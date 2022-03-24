@@ -139,6 +139,8 @@ class App{
     }
 
 
+
+    
     animate(){
         window.requestAnimationFrame(this.animate.bind(this));
 
