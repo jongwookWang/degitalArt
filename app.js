@@ -20,7 +20,7 @@ class App{
         
         this.radius = 10;
         this.pixelSize = 30;
-        this.dot = [];
+        this.dots = [];
 
         this.isLoaded = false;
         this.imgPos = {
@@ -140,13 +140,13 @@ class App{
 
 
 
-    
+
     animate(){
         window.requestAnimationFrame(this.animate.bind(this));
 
         this.ripple.animate();
 
-        for ( let i =0; i<this.dots.length; i++){
+        for ( let i =0; i < this.dots.length; i++){
             const dot = this.dots[i];
             if(collide(
                 dot.x,dot.y,
