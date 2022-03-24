@@ -50,7 +50,7 @@ class App{
         this.canvas.height = this.stageHeight * this.pixelRatio;
         this.ctx.scale(this.pixelRatio, this.pixelRatio);
 
-        this.tempCanvas.width = this.stageWidth;
+        this.tmpCanvas.width = this.stageWidth;
         this.tmpCanvas.height = this.stageHeight;
 
         this.ripple.resize(this.stageWidth, this.stageHeight)
