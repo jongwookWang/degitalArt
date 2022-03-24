@@ -24,7 +24,7 @@ class App{
         this.image = new Image();
         this.image.src ='img/image1.jpg';
         this.image.onload = () =>{
-            this.image.onload = true;
+            this.isLoaded = true;
             this.drawImage();
         };
 
@@ -85,7 +85,6 @@ class App{
 
     animate(){
         window.requestAnimationFrame(this.animate.bind(this));
-
 
         this.ripple.animate(this.ctx);
     }
