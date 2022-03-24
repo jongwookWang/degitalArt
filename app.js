@@ -1,10 +1,15 @@
 import {Ripple} from './ripple.js';
+import {Dot} from './dot.js';
+import {collide} from './utils.js';
 
 class App{
     constructor(){
         this.canvas = document.createElement('canvas');
         document.body.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
+        
+        this.tmpCanvas = document.createElement('canvas');
+        this.tmpCtx = this.tmpCanvas.getContext('2d');
 
         this.pixelRatio = window.devicePixelRatio > 1 ? 2 :1;
 
@@ -12,6 +17,10 @@ class App{
 
         window.addEventListener('resize',this.resize.bind(this),false);
         this.resize();
+        
+        this.radius = 10;
+        this.pixelSize = 30;
+        this.dot = [];
 
         this.isLoaded = false;
         this.imgPos = {
@@ -41,7 +50,11 @@ class App{
         this.canvas.height = this.stageHeight * this.pixelRatio;
         this.ctx.scale(this.pixelRatio, this.pixelRatio);
 
+        this.tempCanvas.width = this.stageWidth;
+        this.tmpCanvas.height = this.stageHeight;
+
         this.ripple.resize(this.stageWidth, this.stageHeight)
+
 
         if (this.isLoaded){
             this.drawImage();
@@ -78,15 +91,69 @@ class App{
             this.imgPos.x, this.imgPos.y,
             this.imgPos.width, this.imgPos.height,
         );
+
+        this.tmpCtx.drawImage(
+            this.image,
+            0,0,
+            this.image.width, this.image.height,
+            this.imgPos.x, this.imgPos.y,
+            this.imgPos.width, this.imgPos.height,
+        );
+        
+        this.imgDate = this.tmpCtx.getIamgeDate(0,0,this.stageWidth,this.stageHeight);
+
+        this.drawDots() 
     }
 
+    drawDots() {
+        this.dots = [];
 
+        this.columns = Math.ceil(this.stageWidth / this.pixelSize);
+        this.rows = Math.ceil(this.stageHeight/this.pixelSize);
+
+        for(let i=0; i<this.rows; i++){
+            const y = (i+0.5) * this.pixelSize;
+            const pixelY = Math.max(Math.min(y,this.stageHeight),0);
+
+            for(let j=0; j<this.columns; j++){
+                const x = (j+0.5) * this.pixelSize;
+                const pixelX = Math.max(Math.min(x,this.stageWidth),0);
+            
+                const pixelIndex = (pixelX + pixelY * this.stageWidth) *4;
+                const red = this.imgDate.data[pixelIndex+0];
+                const green = this.imgDate.data[pixelIndex+1];
+                const blue = this.imgDate.data[pixelIndex+2];
+
+                const dot = new Dot(
+                    x,y,
+                    this.radius,
+                    this.pixelSize,
+                    red,green,blue,
+                );
+
+                this.dots.push(dot);
+
+                
+            }
+        }
+    }
 
 
     animate(){
         window.requestAnimationFrame(this.animate.bind(this));
 
         this.ripple.animate(this.ctx);
+
+        for ( let i =0; i<this.dots.length; i++){
+            const dot = this.dots[i];
+            if(collide(
+                dot.x,dot.y,
+                this.ripple.x,this.ripple.y,
+                this.ripple.radius
+            )){
+                dot.animate(this.ctx);
+            }
+        }
     }
 
     onClick(e){
